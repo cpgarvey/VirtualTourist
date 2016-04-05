@@ -25,7 +25,25 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
         
+        /* set up the long press gesture recognizer to drop pins */
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TravelLocationMapViewController.dropPin(_:)))
+        longPress.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longPress)
+
     }
+    
+    func dropPin(gestureRecognizer: UIGestureRecognizer) {
+        
+        let tapPoint: CGPoint = gestureRecognizer.locationInView(mapView)
+        let touchMapCoordinate: CLLocationCoordinate2D = mapView.convertPoint(tapPoint, toCoordinateFromView: mapView)
+        
+        if UIGestureRecognizerState.Began == gestureRecognizer.state {
+            let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude)
+            mapView.addAnnotation(pin)
+        }
+    }
+    
+    
     
     // MARK: - Persistence Property and Helper Methods
     
@@ -76,7 +94,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
     }
-
-
+    
 }
 
