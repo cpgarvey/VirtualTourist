@@ -65,16 +65,32 @@
 			isa = PBXGroup;
 			children = (
 				F22052591CB37D6B00507FCC /* AppDelegate.swift */,
-				F220525B1CB37D6B00507FCC /* TravelLocationMapViewController.swift */,
-				F220526D1CB3853900507FCC /* CoreDataStackManager.swift */,
+				F22052741CB38F1F00507FCC /* Controller */,
+				F22052751CB38F2800507FCC /* Model */,
 				F220525D1CB37D6B00507FCC /* Main.storyboard */,
 				F22052601CB37D6B00507FCC /* Assets.xcassets */,
 				F22052621CB37D6B00507FCC /* LaunchScreen.storyboard */,
 				F22052651CB37D6B00507FCC /* Info.plist */,
-				F220526F1CB3857D00507FCC /* Model.xcdatamodeld */,
-				F22052721CB385C600507FCC /* Pin.swift */,
 			);
 			path = VirtualTourist;
+			sourceTree = "<group>";
+		};
+		F22052741CB38F1F00507FCC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F220525B1CB37D6B00507FCC /* TravelLocationMapViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		F22052751CB38F2800507FCC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F22052721CB385C600507FCC /* Pin.swift */,
+				F220526D1CB3853900507FCC /* CoreDataStackManager.swift */,
+				F220526F1CB3857D00507FCC /* Model.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

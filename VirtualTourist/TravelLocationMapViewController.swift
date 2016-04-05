@@ -8,12 +8,17 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
 
-    // MARK: - Property
+    // MARK: - Properties
     
     @IBOutlet weak var mapView: MKMapView!
+    
+    lazy var sharedContext: NSManagedObjectContext = {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
     
     
     // MARK: - Life Cycle
@@ -29,7 +34,24 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TravelLocationMapViewController.dropPin(_:)))
         longPress.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPress)
+    
+        
+        /* add persisted pins to map */
+        mapView.addAnnotations(fetchAllPins())
 
+    }
+    
+    
+    // MARK: - Helper Functions
+    
+    func fetchAllPins() -> [Pin] {
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        do {
+            return try sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
+        } catch _ {
+            return [Pin]()
+        }
     }
     
     func dropPin(gestureRecognizer: UIGestureRecognizer) {
@@ -38,14 +60,15 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate: CLLocationCoordinate2D = mapView.convertPoint(tapPoint, toCoordinateFromView: mapView)
         
         if UIGestureRecognizerState.Began == gestureRecognizer.state {
-            let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude)
+            let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: sharedContext)
             mapView.addAnnotation(pin)
         }
+        
+        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     
-    
-    // MARK: - Persistence Property and Helper Methods
+    // MARK: - NSKeyedArchiver Persistence Property and Helper Methods
     
     /* convenience property to return the file path
      for where the map location is stored */
@@ -86,6 +109,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
             mapView.setRegion(savedRegion, animated: animated)
         }
     }
+    
     
     // MARK: - MKMapViewDelegate Method
     
