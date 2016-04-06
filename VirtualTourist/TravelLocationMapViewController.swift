@@ -35,10 +35,22 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         longPress.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPress)
     
-        
         /* add persisted pins to map */
         mapView.addAnnotations(fetchAllPins())
 
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.title = "Virtual Tourist"
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        /* set title to change navigation back button in PhotoAlbumViewController */
+        self.title = "Back To Map"
     }
     
     
@@ -65,6 +77,15 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
         
         CoreDataStackManager.sharedInstance().saveContext()
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+        let pin = view.annotation as! Pin
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
+        controller.pin = pin
+        self.navigationController!.pushViewController(controller, animated: true)
+        
     }
     
     

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JEx-e8-dau">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Travel Location Map View Controller-->
+        <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TravelLocationMapViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,11 +31,65 @@
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lJu-Xh-q2o"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="PMH-zt-c0h"/>
                     <connections>
                         <outlet property="mapView" destination="Mkf-Q5-RDr" id="27g-km-90B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1141" y="429"/>
+        </scene>
+        <!--Photo Album View Controller-->
+        <scene sceneID="cYe-Vq-nYn">
+            <objects>
+                <viewController storyboardIdentifier="PhotoAlbumViewController" id="hII-P2-gdS" customClass="PhotoAlbumViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JQm-at-9Pa"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xff-Vh-OsE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AVw-TI-5Cu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fFf-LL-DSK">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="an2-FP-4q9"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fFf-LL-DSK" firstAttribute="top" secondItem="AVw-TI-5Cu" secondAttribute="top" id="AbV-Sp-4oB"/>
+                            <constraint firstAttribute="trailing" secondItem="fFf-LL-DSK" secondAttribute="trailing" id="DMe-5w-r2s"/>
+                            <constraint firstItem="fFf-LL-DSK" firstAttribute="leading" secondItem="AVw-TI-5Cu" secondAttribute="leading" id="R1t-aX-XWE"/>
+                            <constraint firstItem="fFf-LL-DSK" firstAttribute="centerX" secondItem="AVw-TI-5Cu" secondAttribute="centerX" id="ac3-Xt-Ldj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapSnapshot" destination="fFf-LL-DSK" id="mRm-W9-dgt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yjs-Ry-aIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1837" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VXv-DH-F5f">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JEx-e8-dau" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MiX-lJ-f3H">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="bH0-JU-xpZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dvb-lk-6jA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="305" y="429"/>
         </scene>

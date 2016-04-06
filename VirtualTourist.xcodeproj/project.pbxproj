@@ -16,6 +16,7 @@
 		F220526E1CB3853900507FCC /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F220526D1CB3853900507FCC /* CoreDataStackManager.swift */; };
 		F22052711CB3857D00507FCC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F220526F1CB3857D00507FCC /* Model.xcdatamodeld */; };
 		F22052731CB385C600507FCC /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22052721CB385C600507FCC /* Pin.swift */; };
+		F29842F61CB4CF8D00423576 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29842F51CB4CF8D00423576 /* PhotoAlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		F220526D1CB3853900507FCC /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		F22052701CB3857D00507FCC /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		F22052721CB385C600507FCC /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		F29842F51CB4CF8D00423576 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				F220525B1CB37D6B00507FCC /* TravelLocationMapViewController.swift */,
+				F29842F51CB4CF8D00423576 /* PhotoAlbumViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				F220525A1CB37D6B00507FCC /* AppDelegate.swift in Sources */,
 				F220526E1CB3853900507FCC /* CoreDataStackManager.swift in Sources */,
 				F22052711CB3857D00507FCC /* Model.xcdatamodeld in Sources */,
+				F29842F61CB4CF8D00423576 /* PhotoAlbumViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
