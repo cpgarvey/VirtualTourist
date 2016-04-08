@@ -3,8 +3,9 @@
     <entity name="Pin" representedClassName=".Pin" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="mapSnapshot" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Pin" positionX="-54" positionY="-9" width="128" height="75"/>
+        <element name="Pin" positionX="-54" positionY="-9" width="128" height="90"/>
     </elements>
 </model>

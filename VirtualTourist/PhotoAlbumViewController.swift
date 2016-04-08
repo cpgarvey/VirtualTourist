@@ -25,6 +25,7 @@ class PhotoAlbumViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapSnapshot.image = UIImage(data: pin.mapSnapshot)
     }
 
     

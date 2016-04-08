@@ -43,14 +43,14 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.title = "Virtual Tourist"
+        title = "Virtual Tourist"
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         /* set title to change navigation back button in PhotoAlbumViewController */
-        self.title = "Back To Map"
+        title = "Back To Map"
     }
     
     
@@ -72,11 +72,12 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate: CLLocationCoordinate2D = mapView.convertPoint(tapPoint, toCoordinateFromView: mapView)
         
         if UIGestureRecognizerState.Began == gestureRecognizer.state {
-            let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: sharedContext)
-            mapView.addAnnotation(pin)
-        }
+            
+            let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: self.sharedContext)
+                self.mapView.addAnnotation(pin)
+                
+            }
         
-        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
