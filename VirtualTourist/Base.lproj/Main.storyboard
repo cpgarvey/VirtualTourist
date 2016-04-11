@@ -58,16 +58,79 @@
                                     <constraint firstAttribute="height" constant="156" id="an2-FP-4q9"/>
                                 </constraints>
                             </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cLj-Pe-yfg">
+                                <rect key="frame" x="0.0" y="220" width="600" height="336"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oC4-kz-9ep">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="OPp-Xo-h8d">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQE-e9-Vex">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="DyV-6B-At2"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="IX3-en-atx"/>
+                                    <barButtonItem title="New Collection" id="EsI-O9-5LC"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="fMx-6n-Coq"/>
+                                </items>
+                            </toolbar>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This pin has no images." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZEf-Nm-XeS">
+                                <rect key="frame" x="0.0" y="220" width="600" height="336"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="WYY-aW-4TG"/>
+                                    <constraint firstAttribute="height" constant="336" id="f6J-N4-gP7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZEf-Nm-XeS" secondAttribute="trailing" id="2q8-So-N6C"/>
+                            <constraint firstItem="tQE-e9-Vex" firstAttribute="top" secondItem="cLj-Pe-yfg" secondAttribute="bottom" id="863-Ta-msk"/>
                             <constraint firstItem="fFf-LL-DSK" firstAttribute="top" secondItem="AVw-TI-5Cu" secondAttribute="top" constant="64" id="AbV-Sp-4oB"/>
                             <constraint firstAttribute="trailing" secondItem="fFf-LL-DSK" secondAttribute="trailing" id="DMe-5w-r2s"/>
+                            <constraint firstItem="cLj-Pe-yfg" firstAttribute="top" secondItem="fFf-LL-DSK" secondAttribute="bottom" id="PPH-YA-vhl"/>
+                            <constraint firstItem="tQE-e9-Vex" firstAttribute="leading" secondItem="AVw-TI-5Cu" secondAttribute="leading" id="QGv-M4-J7h"/>
                             <constraint firstItem="fFf-LL-DSK" firstAttribute="leading" secondItem="AVw-TI-5Cu" secondAttribute="leading" id="R1t-aX-XWE"/>
+                            <constraint firstItem="cLj-Pe-yfg" firstAttribute="leading" secondItem="AVw-TI-5Cu" secondAttribute="leading" id="Rl4-Ev-VCd"/>
+                            <constraint firstAttribute="trailing" secondItem="tQE-e9-Vex" secondAttribute="trailing" id="Uvg-Ra-mOe"/>
+                            <constraint firstItem="ZEf-Nm-XeS" firstAttribute="centerX" secondItem="AVw-TI-5Cu" secondAttribute="centerX" id="ZXC-8g-xCa"/>
                             <constraint firstItem="fFf-LL-DSK" firstAttribute="centerX" secondItem="AVw-TI-5Cu" secondAttribute="centerX" id="ac3-Xt-Ldj"/>
+                            <constraint firstItem="tQE-e9-Vex" firstAttribute="top" secondItem="ZEf-Nm-XeS" secondAttribute="bottom" id="b0Q-5A-pdj"/>
+                            <constraint firstItem="tQE-e9-Vex" firstAttribute="top" secondItem="ZEf-Nm-XeS" secondAttribute="bottom" id="jhu-Gl-m5T"/>
+                            <constraint firstAttribute="trailing" secondItem="cLj-Pe-yfg" secondAttribute="trailing" id="omk-PL-889"/>
+                            <constraint firstItem="ZEf-Nm-XeS" firstAttribute="top" secondItem="fFf-LL-DSK" secondAttribute="bottom" id="pll-sT-io2"/>
+                            <constraint firstItem="cLj-Pe-yfg" firstAttribute="centerX" secondItem="AVw-TI-5Cu" secondAttribute="centerX" id="urK-L3-e1p"/>
+                            <constraint firstItem="ZEf-Nm-XeS" firstAttribute="leading" secondItem="AVw-TI-5Cu" secondAttribute="leading" id="vta-Mk-tKq"/>
+                            <constraint firstItem="Xff-Vh-OsE" firstAttribute="top" secondItem="tQE-e9-Vex" secondAttribute="bottom" id="xoj-0F-l5q"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="jhu-Gl-m5T"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="cLj-Pe-yfg" id="e9W-Pc-LGt"/>
+                        <outlet property="errorMessage" destination="ZEf-Nm-XeS" id="5mK-LB-lgY"/>
                         <outlet property="mapSnapshot" destination="fFf-LL-DSK" id="mRm-W9-dgt"/>
                     </connections>
                 </viewController>

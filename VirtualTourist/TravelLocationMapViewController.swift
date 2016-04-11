@@ -87,6 +87,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         controller.pin = pin
         self.navigationController!.pushViewController(controller, animated: true)
         
+        
     }
     
     
