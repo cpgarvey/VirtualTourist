@@ -60,23 +60,50 @@
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cLj-Pe-yfg">
                                 <rect key="frame" x="0.0" y="220" width="600" height="336"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oC4-kz-9ep">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="254" height="195"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="OPp-Xo-h8d">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="PhotoCollectionViewCell" id="OPp-Xo-h8d" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="254" height="195"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="254" height="195"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epH-2C-FhU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="254" height="195"/>
+                                                </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qQJ-vV-Leh">
+                                                    <rect key="frame" x="109" y="79" width="37" height="37"/>
+                                                </activityIndicatorView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="qQJ-vV-Leh" firstAttribute="centerY" secondItem="OPp-Xo-h8d" secondAttribute="centerY" id="Rlq-E6-vNl"/>
+                                            <constraint firstItem="epH-2C-FhU" firstAttribute="centerX" secondItem="OPp-Xo-h8d" secondAttribute="centerX" id="ckG-27-6Cq"/>
+                                            <constraint firstAttribute="bottom" secondItem="epH-2C-FhU" secondAttribute="bottom" id="eaD-FH-HhO"/>
+                                            <constraint firstItem="epH-2C-FhU" firstAttribute="top" secondItem="OPp-Xo-h8d" secondAttribute="top" id="fDo-p3-gW5"/>
+                                            <constraint firstAttribute="trailing" secondItem="epH-2C-FhU" secondAttribute="trailing" id="fQc-1k-wVl"/>
+                                            <constraint firstItem="epH-2C-FhU" firstAttribute="leading" secondItem="OPp-Xo-h8d" secondAttribute="leading" id="mLU-4W-wSO"/>
+                                            <constraint firstItem="qQJ-vV-Leh" firstAttribute="centerX" secondItem="OPp-Xo-h8d" secondAttribute="centerX" id="uBD-nz-CcT"/>
+                                            <constraint firstItem="epH-2C-FhU" firstAttribute="centerY" secondItem="OPp-Xo-h8d" secondAttribute="centerY" id="vWu-zy-GYO"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="qQJ-vV-Leh" id="t2G-nK-Fwd"/>
+                                            <outlet property="photoImageView" destination="epH-2C-FhU" id="QSt-DF-ZLC"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="hII-P2-gdS" id="7Sz-of-knf"/>
+                                    <outlet property="delegate" destination="hII-P2-gdS" id="MmA-hy-nCO"/>
+                                </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQE-e9-Vex">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
