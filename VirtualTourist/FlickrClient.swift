@@ -8,8 +8,7 @@
 
 import Foundation
 import MapKit
-
-// eventually will need to set up a convenience method that will check first to see if anything gets returned (one page or more), if so then continue on to pulling the next page 
+ 
 
 class FlickrClient: NSObject {
     
@@ -192,44 +191,6 @@ class FlickrClient: NSObject {
                     
                     photoUrlArray.append(imageUrlString)
                 }
-                
-//                let randomPhotoIndex = Int(arc4random_uniform(UInt32(photosArray.count)))
-//                let photoDictionary = photosArray[randomPhotoIndex] as [String: AnyObject]
-//                
-//                
-//                /* GUARD: Does our photo have a key for 'url_m'? */
-//                guard let imageUrlString = photoDictionary["url_m"] as? String else {
-//                    print("Cannot find key 'url_m' in \(photoDictionary)")
-//                    return
-//                }
-//                
-//                // the following is the downloading part... we want that to occur in the photo album view controller, so this needs to be moved
-//                let imageURL = NSURL(string: imageUrlString)
-//                if let imageData = NSData(contentsOfURL: imageURL!) {
-//                    dispatch_async(dispatch_get_main_queue(), {
-//                        
-//                        self.defaultLabel.alpha = 0.0
-//                        self.photoImageView.image = UIImage(data: imageData)
-//                        
-//                        if methodArguments["bbox"] != nil {
-//                            if let photoTitle = photoTitle {
-//                                self.photoTitleLabel.text = "\(self.getLatLonString()) \(photoTitle)"
-//                            } else {
-//                                self.photoTitleLabel.text = "\(self.getLatLonString()) (Untitled)"
-//                            }
-//                        } else {
-//                            self.photoTitleLabel.text = photoTitle ?? "(Untitled)"
-//                        }
-//                    })
-//                } else {
-//                    print("Image does not exist at \(imageURL)")
-//                }
-//            } else {
-//                dispatch_async(dispatch_get_main_queue(), {
-//                    self.photoTitleLabel.text = "No Photos Found. Search Again."
-//                    self.defaultLabel.alpha = 1.0
-//                    self.photoImageView.image = nil
-//                })
             
                 completionHandler(success: true, photos: photoUrlArray, errorString: nil)
             }
@@ -278,6 +239,11 @@ class FlickrClient: NSObject {
         return components.URL!
     }
     
+    // MARK: - Shared Image Cache
+    
+    struct Caches {
+        static let imageCache = ImageCache()
+    }
     
     // MARK: - Shared Instance
     
