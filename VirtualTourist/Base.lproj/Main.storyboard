@@ -156,6 +156,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="bottomButton" destination="EsI-O9-5LC" id="M56-ak-lPH"/>
                         <outlet property="collectionView" destination="cLj-Pe-yfg" id="e9W-Pc-LGt"/>
                         <outlet property="errorMessage" destination="ZEf-Nm-XeS" id="5mK-LB-lgY"/>
                         <outlet property="mapSnapshot" destination="fFf-LL-DSK" id="mRm-W9-dgt"/>

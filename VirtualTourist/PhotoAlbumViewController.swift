@@ -27,12 +27,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var mapSnapshot: UIImageView!
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var bottomButton: UIBarButtonItem!
     
     
     // The selected indexes array keeps all of the indexPaths for cells that are "selected". The array is
     // used inside cellForItemAtIndexPath to lower the alpha of selected cells.  You can see how the array
     // works by searchign through the code for 'selectedIndexes'
-    var selectedIndexes = [NSIndexPath]()
+    var selectedPhotos = [Photo]()
     
     // Keep the changes. We will keep track of insertions, deletions, and updates.
     var insertedIndexPaths: [NSIndexPath]!
@@ -161,17 +162,34 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: Collection View Delegate Protocol Method - Managing the Selected Cells
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TO DO: have the photo selected and then deleted if necessary
+        
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+        
+        // Whenever a cell is tapped we will toggle its presence in the selectedIndexes array
+        if let index = selectedPhotos.indexOf(photo) {
+            selectedPhotos.removeAtIndex(index)
+        } else {
+            selectedPhotos.append(photo)
+        }
+        
+        // Then reconfigure the cell
+        configureCell(cell, photo: photo)
+        
+        // And update the buttom button
+        updateBottomButton()
     }
-    
     
     // MARK: Configure Cell
     
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.backgroundColor = UIColor.blackColor()
-        cell.activityIndicator.startAnimating()
+        
         
         if photo.photoImage == nil {  // then download the image using the photoPath
+            
+            cell.activityIndicator.startAnimating()
             
             FlickrClient.sharedInstance().downloadPhoto(photo) { (success, photoImage, errorString) in
                 if success {
@@ -197,8 +215,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
             performUIUpdatesOnMain {
                 cell.photoImageView?.image = photo.photoImage
-                cell.activityIndicator.stopAnimating()
             }
+        }
+        
+        if let index = selectedPhotos.indexOf(photo) {
+            cell.alpha = 0.25
+        } else {
+            cell.alpha = 1.0
         }
     
     }
@@ -278,6 +301,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
             
             }, completion: nil)
+    }
+    
+    // MARK: - Helper Functions
+    
+    func updateBottomButton() {
+        if selectedPhotos.count > 0 {
+            bottomButton.title = "Remove Selected Photos"
+        } else {
+            bottomButton.title = "Clear All"
+        }
     }
     
     
