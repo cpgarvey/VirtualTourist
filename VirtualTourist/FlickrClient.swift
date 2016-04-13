@@ -199,7 +199,24 @@ class FlickrClient: NSObject {
         task.resume()
     }
     
-    
+    func downloadPhoto(photo: Photo, completionHandler: (success: Bool, photoImage: UIImage?, errorString: String?) -> Void) {
+        
+        // citation: http://stackoverflow.com/questions/28868894/swift-url-reponse-is-nil
+        let session = NSURLSession.sharedSession()
+        let imageURL = NSURL(string: photo.photoPath)
+        
+        let sessionTask = session.dataTaskWithURL(imageURL!) { data, response, error in
+            guard let data = data else {
+                completionHandler(success: false, photoImage: nil, errorString: nil)
+                return
+            }
+                
+            let photoImage = UIImage(data: data)
+            completionHandler(success: true, photoImage: photoImage, errorString: nil)
+        }
+
+        sessionTask.resume()
+    }
     
     // MARK: - Lat/Lon Manipulation
     

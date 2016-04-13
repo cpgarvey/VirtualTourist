@@ -173,21 +173,25 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         if photo.photoImage == nil {  // then download the image using the photoPath
             
-            // citation: http://stackoverflow.com/questions/28868894/swift-url-reponse-is-nil
-            let session = NSURLSession.sharedSession()
-            let imageURL = NSURL(string: photo.photoPath)
-            
-            let sessionTask = session.dataTaskWithURL(imageURL!) { data, response, error in
-                performUIUpdatesOnMain {
+            FlickrClient.sharedInstance().downloadPhoto(photo) { (success, photoImage, errorString) in
+                if success {
                     
-                    let photoImage = UIImage(data: data!)
-                    photo.photoImage = photoImage
-                    cell.photoImageView?.image = photoImage
-                    cell.activityIndicator.stopAnimating()
+                    performUIUpdatesOnMain {
+                        photo.photoImage = photoImage
+                        cell.photoImageView?.image = photoImage
+                        cell.activityIndicator.stopAnimating()
+                    }
+                    
+                } else {
+                    
+                    performUIUpdatesOnMain {
+                        // deal with error...
+                        cell.activityIndicator.stopAnimating()
+                        print(errorString)
+                    }
+                    
                 }
             }
-            
-            sessionTask.resume()
             
         } else { // use the image that is already stored either in the cache or on the hard drive
             
