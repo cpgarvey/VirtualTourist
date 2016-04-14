@@ -89,6 +89,19 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
     }
 
+    // MARK: - Action
+    
+    @IBAction func bottomButtonClicked(sender: UIBarButtonItem) {
+        
+        if selectedPhotos.isEmpty {
+            deleteAllPhotos()
+            // add a new collection
+        } else {
+            deleteSelectedPhotos()
+        }
+    }
+    
+    
     
     // MARK: - Core Data Convenience
     
@@ -186,6 +199,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.backgroundColor = UIColor.blackColor()
         
+        // TO DO: fix activity indicator animating issue?
         
         if photo.photoImage == nil {  // then download the image using the photoPath
             
@@ -305,11 +319,40 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - Helper Functions
     
+    
+    func deleteAllPhotos() {
+        
+        for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+            sharedContext.deleteObject(photo)
+            FlickrClient.Caches.imageCache.deleteImage(photo.photoPath)
+        }
+        
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+    
+    func deleteSelectedPhotos() {
+        var photosToDelete = [Photo]()
+        
+        for photo in selectedPhotos {
+            photosToDelete.append(photo)
+        }
+        
+        for photo in photosToDelete {
+            sharedContext.deleteObject(photo)
+            FlickrClient.Caches.imageCache.deleteImage(photo.photoPath)
+        }
+        
+        selectedPhotos = [Photo]()
+        CoreDataStackManager.sharedInstance().saveContext()
+        updateBottomButton()
+    }
+    
+    
     func updateBottomButton() {
         if selectedPhotos.count > 0 {
             bottomButton.title = "Remove Selected Photos"
         } else {
-            bottomButton.title = "Clear All"
+            bottomButton.title = "New Collection"
         }
     }
     

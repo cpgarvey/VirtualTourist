@@ -60,6 +60,20 @@ class ImageCache {
         data.writeToFile(path, atomically: true)
     }
     
+    // MARK: - Deleting images
+    
+    func deleteImage(identifier: String) {
+        
+        let path = pathForIdentifier(identifier)
+        
+        inMemoryCache.removeObjectForKey(path)
+        
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(path)
+        } catch _ {}
+        
+    }
+    
     // MARK: - Helper
     
     func pathForIdentifier(identifier: String) -> String {
