@@ -11,7 +11,7 @@ import MapKit
 
 extension FlickrClient {
     
-    func getPhotos(pin: MKAnnotation, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
+    func getPhotos(pin: Pin, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
         
         self.getImagesFromFlickr(pin) { (success, pageLimit, errorString) in
             

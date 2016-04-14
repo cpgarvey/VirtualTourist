@@ -61,30 +61,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         if pin.photos.isEmpty {
             
-            FlickrClient.sharedInstance().getPhotos(pin) { (success, photos, errorString) in
-                if success {
-                    
-                    for photo in photos! {
-                        let photoPath = Photo(photoPath: photo, context: self.sharedContext)
-                        
-                        photoPath.pin = self.pin
-                        
-                        CoreDataStackManager.sharedInstance().saveContext()
-                    }
-                    
-                    performUIUpdatesOnMain {
-                        self.collectionView!.reloadData()
-                    }
-                    
-                } else {
-                    // display a label stating that no photos
-                    performUIUpdatesOnMain {
-                        self.errorMessage.hidden = false
-                        print(errorString)
-                    }
-                    
-                }
-            }
+            downloadNewPhotoCollection()
+    
         }
         
     }
@@ -95,7 +73,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         if selectedPhotos.isEmpty {
             deleteAllPhotos()
-            // add a new collection
+            downloadNewPhotoCollection()
         } else {
             deleteSelectedPhotos()
         }
@@ -217,7 +195,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 } else {
                     
                     performUIUpdatesOnMain {
-                        // deal with error...
+                        
                         cell.activityIndicator.stopAnimating()
                         print(errorString)
                     }
@@ -318,6 +296,41 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     // MARK: - Helper Functions
+    
+    func downloadNewPhotoCollection() {
+        
+        FlickrClient.sharedInstance().getPhotos(pin) { (success, photos, errorString) in
+            if success {
+                
+                if photos?.count == 0 {
+                    performUIUpdatesOnMain {
+                        self.errorMessage.hidden = false
+                    }
+                }
+                
+                for photo in photos! {
+                    let photoPath = Photo(photoPath: photo, context: self.sharedContext)
+                    
+                    photoPath.pin = self.pin
+                    
+                    CoreDataStackManager.sharedInstance().saveContext()
+                }
+                
+                performUIUpdatesOnMain {
+                    self.collectionView!.reloadData()
+                }
+                
+            } else {
+                // display a label stating that no photos
+                performUIUpdatesOnMain {
+                    self.errorMessage.hidden = false
+                    print(errorString)
+                }
+                
+            }
+        }
+        
+    }
     
     
     func deleteAllPhotos() {

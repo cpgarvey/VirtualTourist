@@ -94,7 +94,7 @@ class FlickrClient: NSObject {
         task.resume()
     }
     
-    func getImageFromFlickrBySearchWithPage(pin: MKAnnotation, pageLimit: Int, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
+    func getImageFromFlickrBySearchWithPage(pin: Pin, pageLimit: Int, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
         
         let methodArguments = [
             "method": Constants.METHOD_NAME,
@@ -110,7 +110,7 @@ class FlickrClient: NSObject {
         /* Add the page to the method's arguments */
         var withPageDictionary = methodArguments
         // we'll need to check if we're reaching the pageLimit as we iterate through the pages; if not, then continue to next line
-        withPageDictionary["page"] = "1" // we'll need to iterate this number based on how many times we've searched for photos
+        withPageDictionary["page"] = String(pin.pageNumber) // we'll need to iterate this number based on how many times we've searched for photos
         
         let session = NSURLSession.sharedSession()
         let url = constructFlickrURL(withPageDictionary)
@@ -192,6 +192,10 @@ class FlickrClient: NSObject {
                     photoUrlArray.append(imageUrlString)
                 }
             
+                pin.pageNumber = pin.pageNumber + 1
+                
+                CoreDataStackManager.sharedInstance().saveContext()
+                
                 completionHandler(success: true, photos: photoUrlArray, errorString: nil)
             }
         }

@@ -16,6 +16,7 @@ class Pin: NSManagedObject, MKAnnotation {
     @NSManaged var longitude: NSNumber
     @NSManaged var mapSnapshot: NSData
     @NSManaged var photos: [Photo]
+    @NSManaged var pageNumber: Int
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -28,6 +29,9 @@ class Pin: NSManagedObject, MKAnnotation {
         latitude = NSNumber(double: annotationLatitude)
         longitude = NSNumber(double: annotationLongitude)
         takeSnapshot()
+        pageNumber = 1
+        
+        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     @objc var coordinate: CLLocationCoordinate2D {
@@ -71,7 +75,6 @@ class Pin: NSManagedObject, MKAnnotation {
             
             self.mapSnapshot = UIImagePNGRepresentation(compositeImage)!
             
-            CoreDataStackManager.sharedInstance().saveContext()
         }
             
     }
