@@ -176,7 +176,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.backgroundColor = UIColor.blackColor()
-        
+        cell.photoImageView.image = nil
         
         if photo.photoImage == nil {  // then download the image using the photoPath
             
