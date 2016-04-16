@@ -184,20 +184,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
             FlickrClient.sharedInstance().downloadPhoto(photo) { (success, errorString) in
                 if success {
-                    
                     performUIUpdatesOnMain {
                         cell.photoImageView?.image = photo.photoImage
                         cell.activityIndicator.stopAnimating()
                     }
-                    
                 } else {
-                    
                     performUIUpdatesOnMain {
-                        
+                        cell.photoImageView.image = UIImage(named: "placeholder")
                         cell.activityIndicator.stopAnimating()
                         print(errorString)
                     }
-                    
                 }
             }
             
@@ -210,7 +206,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
         }
         
-        if let index = selectedPhotos.indexOf(photo) {
+        /* Toggle the transparency of the cell depending on whether the photo appears in the selecterPhotos array */
+        if let _ = selectedPhotos.indexOf(photo) {
             cell.alpha = 0.25
         } else {
             cell.alpha = 1.0
@@ -304,8 +301,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             if success == false {
                 // display a label stating that no photos
                 performUIUpdatesOnMain {
+                    self.errorMessage.text = errorString
                     self.errorMessage.hidden = false
-                    print(errorString)
                 }
             }
         }
