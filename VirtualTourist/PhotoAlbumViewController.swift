@@ -46,8 +46,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapSnapshot.image = UIImage(data: pin.mapSnapshot)
-        
         /* Perform the fetch */
         do {
             try fetchedResultsController.performFetch()
@@ -59,12 +57,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if pin.photos.isEmpty {
-            
-            downloadNewPhotoCollection()
-    
-        }
+        mapSnapshot.image = UIImage(data: pin.mapSnapshot)
         
+        if pin.photos.isEmpty {
+            downloadNewPhotoCollection()
+        }
     }
 
     // MARK: - Action

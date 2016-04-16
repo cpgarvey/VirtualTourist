@@ -12,6 +12,7 @@ import CoreData
 
 class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
 
+    
     // MARK: - Properties
     
     @IBOutlet weak var mapView: MKMapView!
@@ -30,12 +31,12 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
         
-        /* set up the long press gesture recognizer to drop pins */
+        /* Set up the long press gesture recognizer to drop pins */
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TravelLocationMapViewController.dropPin(_:)))
         longPress.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPress)
     
-        /* add persisted pins to map */
+        /* Add persisted pins to map */
         mapView.addAnnotations(fetchAllPins())
 
     }
@@ -43,13 +44,14 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        /* Set title in the navigation bar */
         title = "Virtual Tourist"
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        /* set title to change navigation back button in PhotoAlbumViewController */
+        /* Set title to change the navigation back button in PhotoAlbumViewController */
         title = "Back To Map"
     }
     
@@ -66,6 +68,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // citation: http://juliusdanek.de/blog//coding/2015/07/14/persistent-pins-tutorial/
     func dropPin(gestureRecognizer: UIGestureRecognizer) {
         
         let tapPoint: CGPoint = gestureRecognizer.locationInView(mapView)
@@ -75,9 +78,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
             
             let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: self.sharedContext)
                 self.mapView.addAnnotation(pin)
-
             }
-        
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
@@ -86,15 +87,12 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.pin = pin
         self.navigationController!.pushViewController(controller, animated: true)
-        
-        
     }
     
     
     // MARK: - NSKeyedArchiver Persistence Property and Helper Methods
     
-    /* convenience property to return the file path
-     for where the map location is stored */
+    /* convenience property to return the file path for where the map location is stored */
     var filePath : String {
         let manager = NSFileManager.defaultManager()
         let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
@@ -136,8 +134,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - MKMapViewDelegate Method
     
-    /* delegate method notifies the view controller when the map view changes
-     so that the map location can be saved */
+    /* delegate method notifies the view controller when the map view changes so that the map location can be saved */
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
     }
