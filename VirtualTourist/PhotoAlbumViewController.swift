@@ -177,18 +177,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.backgroundColor = UIColor.blackColor()
         
-        // TO DO: fix activity indicator animating issue?
         
         if photo.photoImage == nil {  // then download the image using the photoPath
             
             cell.activityIndicator.startAnimating()
             
-            FlickrClient.sharedInstance().downloadPhoto(photo) { (success, photoImage, errorString) in
+            FlickrClient.sharedInstance().downloadPhoto(photo) { (success, errorString) in
                 if success {
                     
                     performUIUpdatesOnMain {
-                        photo.photoImage = photoImage
-                        cell.photoImageView?.image = photoImage
+                        cell.photoImageView?.image = photo.photoImage
                         cell.activityIndicator.stopAnimating()
                     }
                     
@@ -203,7 +201,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 }
             }
             
-        } else { // use the image that is already stored either in the cache or on the hard drive
+        }
+        
+        else { // use the image that is already stored either in the cache or on the hard drive
             
             performUIUpdatesOnMain {
                 cell.photoImageView?.image = photo.photoImage
@@ -295,52 +295,31 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }, completion: nil)
     }
     
+    
     // MARK: - Helper Functions
     
     func downloadNewPhotoCollection() {
         
-        FlickrClient.sharedInstance().getPhotos(pin) { (success, photos, errorString) in
-            if success {
-                
-                if photos?.count == 0 {
-                    performUIUpdatesOnMain {
-                        self.errorMessage.hidden = false
-                    }
-                }
-                
-                for photo in photos! {
-                    let photoPath = Photo(photoPath: photo, context: self.sharedContext)
-                    
-                    photoPath.pin = self.pin
-                    
-                    CoreDataStackManager.sharedInstance().saveContext()
-                }
-                
-                performUIUpdatesOnMain {
-                    self.collectionView!.reloadData()
-                }
-                
-            } else {
+        FlickrClient.sharedInstance().getPhotos(pin) { (success, errorString) in
+            if success == false {
                 // display a label stating that no photos
                 performUIUpdatesOnMain {
                     self.errorMessage.hidden = false
                     print(errorString)
                 }
-                
             }
         }
-        
     }
-    
     
     func deleteAllPhotos() {
         
         for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
             sharedContext.deleteObject(photo)
-            FlickrClient.Caches.imageCache.deleteImage(photo.photoPath)
+            
+            CoreDataStackManager.sharedInstance().saveContext()
         }
         
-        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     func deleteSelectedPhotos() {
@@ -352,7 +331,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         for photo in photosToDelete {
             sharedContext.deleteObject(photo)
-            FlickrClient.Caches.imageCache.deleteImage(photo.photoPath)
+            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
         }
         
         selectedPhotos = [Photo]()

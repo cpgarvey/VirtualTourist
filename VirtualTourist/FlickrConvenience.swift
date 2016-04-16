@@ -11,21 +11,21 @@ import MapKit
 
 extension FlickrClient {
     
-    func getPhotos(pin: Pin, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
+    func getPhotos(pin: Pin, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         self.getImagesFromFlickr(pin) { (success, pageLimit, errorString) in
             
             if success {
             
-                self.getImageFromFlickrBySearchWithPage(pin, pageLimit: pageLimit) { (success, photos, errorString) in
+                self.getImageFromFlickrBySearchWithPage(pin, pageLimit: pageLimit) { (success, errorString) in
                     
                     if success {
                         
-                        completionHandler(success: true, photos: photos, errorString: nil)
+                        completionHandler(success: true, errorString: nil)
                         
                     } else {
                         
-                        completionHandler(success: false, photos: nil, errorString: errorString)
+                        completionHandler(success: false, errorString: errorString)
                     }
             
                 }
@@ -33,7 +33,7 @@ extension FlickrClient {
         
             } else {
                 
-                completionHandler(success: false, photos: nil, errorString: errorString)
+                completionHandler(success: false, errorString: errorString)
                 
             }
         }

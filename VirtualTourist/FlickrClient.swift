@@ -8,6 +8,8 @@
 
 import Foundation
 import MapKit
+import UIKit
+import CoreData
  
 
 class FlickrClient: NSObject {
@@ -30,7 +32,8 @@ class FlickrClient: NSObject {
         
         let session = NSURLSession.sharedSession()
         let url = constructFlickrURL(methodArguments)
-        let request = NSURLRequest(URL: url)
+        let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+        let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 2.0)
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
@@ -94,7 +97,7 @@ class FlickrClient: NSObject {
         task.resume()
     }
     
-    func getImageFromFlickrBySearchWithPage(pin: Pin, pageLimit: Int, completionHandler: (success: Bool, photos: [String]?, errorString: String?) -> Void) {
+    func getImageFromFlickrBySearchWithPage(pin: Pin, pageLimit: Int, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         let methodArguments = [
             "method": Constants.METHOD_NAME,
@@ -114,7 +117,9 @@ class FlickrClient: NSObject {
         
         let session = NSURLSession.sharedSession()
         let url = constructFlickrURL(withPageDictionary)
-        let request = NSURLRequest(URL: url)
+        let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+        let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 2.0)
+        
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
@@ -170,6 +175,21 @@ class FlickrClient: NSObject {
                 return
             }
             
+            
+            /*
+             if a search returns no photos, you get the following from the flickr api:
+             
+             { "photos": { "page": 1, "pages": 0, "perpage": 21, "total": 0,
+             "photo": [
+             
+             ] }, "stat": "ok" }
+             
+ 
+             */
+            
+            // we should change this comparison test... it should be whether the photo key is an empty array
+            // if empty array, then complethandler with error; otherwise, proceed below
+            
             if totalPhotosVal > 0 {
                 
                 /* GUARD: Is the "photo" key in photosDictionary? */
@@ -178,32 +198,38 @@ class FlickrClient: NSObject {
                     return
                 }
                 
-                var photoUrlArray = [String]()
-                
                 for photo in photosArray {
                     
                     /* GUARD: Does our photo have a key for 'url_m'? */
                     guard let imageUrlString = photo["url_m"] as? String else {
                         print("Cannot find key 'url_m' in \(photo)")
-                        completionHandler(success: false, photos: nil, errorString: "Problem with a photo URL")
+                        completionHandler(success: false, errorString: "Problem with a photo URL")
                         return
                     }
                     
-                    photoUrlArray.append(imageUrlString)
+                    guard let photoID = photo["id"] as? String else {
+                        print("Cannot find key 'id' in \(photo)")
+                        completionHandler(success: false, errorString: "Problem with a photo URL")
+                        return
+                    }
+                    
+                    let _ = Photo(pin: pin, photoID: photoID, photoPath: imageUrlString, context: self.sharedContext)
+                    
+                    CoreDataStackManager.sharedInstance().saveContext()
                 }
             
                 pin.pageNumber = pin.pageNumber + 1
                 
                 CoreDataStackManager.sharedInstance().saveContext()
                 
-                completionHandler(success: true, photos: photoUrlArray, errorString: nil)
+                completionHandler(success: true, errorString: nil)
             }
         }
         
         task.resume()
     }
     
-    func downloadPhoto(photo: Photo, completionHandler: (success: Bool, photoImage: UIImage?, errorString: String?) -> Void) {
+    func downloadPhoto(photo: Photo, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         // citation: http://stackoverflow.com/questions/28868894/swift-url-reponse-is-nil
         let session = NSURLSession.sharedSession()
@@ -211,12 +237,15 @@ class FlickrClient: NSObject {
         
         let sessionTask = session.dataTaskWithURL(imageURL!) { data, response, error in
             guard let data = data else {
-                completionHandler(success: false, photoImage: nil, errorString: nil)
+                completionHandler(success: false, errorString: nil)
                 return
             }
                 
-            let photoImage = UIImage(data: data)
-            completionHandler(success: true, photoImage: photoImage, errorString: nil)
+            photo.photoImage = UIImage(data: data)
+            
+            completionHandler(success: true, errorString: nil)
+            
+            CoreDataStackManager.sharedInstance().saveContext()
         }
 
         sessionTask.resume()
@@ -259,6 +288,13 @@ class FlickrClient: NSObject {
         
         return components.URL!
     }
+    
+    // MARK: - Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
     
     // MARK: - Shared Image Cache
     

@@ -40,6 +40,7 @@ class ImageCache {
     
     func storeImage(image: UIImage?, withIdentifier identifier: String) {
         let path = pathForIdentifier(identifier)
+        print(path)
         
         // If the image is nil, remove images from the cache
         if image == nil {
@@ -70,7 +71,7 @@ class ImageCache {
         
         do {
             try NSFileManager.defaultManager().removeItemAtPath(path)
-        } catch _ {}
+        } catch _ { }
         
     }
     
@@ -78,6 +79,7 @@ class ImageCache {
     
     func pathForIdentifier(identifier: String) -> String {
         let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        print(String(documentsDirectoryURL))
         let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)
         
         return fullURL.path!
