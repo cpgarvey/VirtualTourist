@@ -260,8 +260,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         case .Move:
             print("Move an item. We don't expect to see this in this app.")
             break
-        default:
-            break
         }
     }
     

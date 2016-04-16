@@ -12,6 +12,7 @@ class ImageCache {
     
     private var inMemoryCache = NSCache()
     
+    
     // MARK: - Retreiving images
     
     func imageWithIdentifier(identifier: String?) -> UIImage? {
@@ -35,6 +36,7 @@ class ImageCache {
         
         return nil
     }
+    
     
     // MARK: - Saving images
     
@@ -61,21 +63,25 @@ class ImageCache {
         data.writeToFile(path, atomically: true)
     }
     
+    
     // MARK: - Deleting images
     
     func deleteImage(identifier: String) {
         
         let path = pathForIdentifier(identifier)
         
+        // Remove the image from the cache
         inMemoryCache.removeObjectForKey(path)
         
+        // Try to remove the image from the documents directory
         do {
             try NSFileManager.defaultManager().removeItemAtPath(path)
         } catch _ { }
         
     }
     
-    // MARK: - Helper
+    
+    // MARK: - Helper Function
     
     func pathForIdentifier(identifier: String) -> String {
         let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!

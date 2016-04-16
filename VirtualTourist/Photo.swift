@@ -13,7 +13,7 @@ import CoreData
 class Photo: NSManagedObject {
     
     @NSManaged var photoPath: String
-    @NSManaged var pin: Pin?
+    @NSManaged var pin: Pin
     @NSManaged var photoID: String
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

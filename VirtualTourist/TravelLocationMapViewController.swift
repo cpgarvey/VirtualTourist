@@ -75,7 +75,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
             
             let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: self.sharedContext)
                 self.mapView.addAnnotation(pin)
-                
+
             }
         
     }

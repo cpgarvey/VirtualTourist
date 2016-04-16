@@ -28,9 +28,14 @@ class Pin: NSManagedObject, MKAnnotation {
         
         latitude = NSNumber(double: annotationLatitude)
         longitude = NSNumber(double: annotationLongitude)
+        
+        /* Create a snapshot of the pin location */
         takeSnapshot()
+        
+        /* Set the initial page number that will be used to download photos for the pin to 1 */
         pageNumber = 1
         
+        /* Save the Core Data Context that includes the new pin object */
         CoreDataStackManager.sharedInstance().saveContext()
     }
     
