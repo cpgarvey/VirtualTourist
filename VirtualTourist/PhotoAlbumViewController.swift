@@ -21,6 +21,7 @@ private let reuseIdentifier = "PhotoCollectionViewCell"
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate {
 
+    
     // MARK: - Properties
     
     var pin: Pin!
@@ -29,13 +30,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomButton: UIBarButtonItem!
     
-    
-    // The selected indexes array keeps all of the indexPaths for cells that are "selected". The array is
-    // used inside cellForItemAtIndexPath to lower the alpha of selected cells.  You can see how the array
-    // works by searchign through the code for 'selectedIndexes'
+    /* Variable property to keep track of selected photos */
     var selectedPhotos = [Photo]()
     
-    // Keep the changes. We will keep track of insertions, deletions, and updates.
+    /* Variable properties to keep track of insertions, deletions, and updates */
     var insertedIndexPaths: [NSIndexPath]!
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
@@ -59,23 +57,25 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         mapSnapshot.image = UIImage(data: pin.mapSnapshot)
         
+        /* If a pin has no associated photos, begin the download of new photos */
         if pin.photos.isEmpty {
             downloadNewPhotoCollection()
         }
     }
 
+    
     // MARK: - Action
     
     @IBAction func bottomButtonClicked(sender: UIBarButtonItem) {
-        
+        /* If no photos have been selected, then delete them all and download new ones */
         if selectedPhotos.isEmpty {
             deleteAllPhotos()
             downloadNewPhotoCollection()
         } else {
+            /* Otherwise, delete just the selected photos */
             deleteSelectedPhotos()
         }
     }
-    
     
     
     // MARK: - Core Data Convenience
@@ -144,8 +144,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         configureCell(cell, photo: photo)
         
         return cell
-        
+
     }
+    
     
     // MARK: Collection View Delegate Protocol Method - Managing the Selected Cells
     
@@ -155,27 +156,29 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
-        // Whenever a cell is tapped we will toggle its presence in the selectedIndexes array
+        /* If the photo is already in the selectedPhotos array when the user selects the cell, remove the photo from the array */
         if let index = selectedPhotos.indexOf(photo) {
             selectedPhotos.removeAtIndex(index)
         } else {
+            /* Otherwise, add the photo into the array */
             selectedPhotos.append(photo)
         }
         
-        // Then reconfigure the cell
+        /* Configure the cell again to reflect its new selected or unselected status */
         configureCell(cell, photo: photo)
         
-        // And update the buttom button
+        /* Update the bottom button to reflect whether a new collection should be added or selected items removed */ 
         updateBottomButton()
     }
+    
     
     // MARK: Configure Cell
     
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.backgroundColor = UIColor.blackColor()
         
-        
-        if photo.photoImage == nil {  // then download the image using the photoPath
+        /* If there's no image associated with the photo, then download it */
+        if photo.photoImage == nil {
             cell.photoImageView.image = UIImage(named: "placeholder")
             cell.activityIndicator.startAnimating()
             
@@ -194,10 +197,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 }
             }
             
-        }
-        
-        else { // use the image that is already stored either in the cache or on the hard drive
-            
+        } else {
+            /* Use the image that is already stored either in the cache or on the hard drive */
             performUIUpdatesOnMain {
                 cell.photoImageView?.image = photo.photoImage
             }
@@ -214,11 +215,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     
     // MARK: - Fetched Results Controller Delegate
-    
-    // Whenever changes are made to Core Data the following three methods are invoked. This first method is used to create
-    // three fresh arrays to record the index paths that will be changed.
+   
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        // We are about to handle some new changes. Start out with empty arrays for each change type
+        
         insertedIndexPaths = [NSIndexPath]()
         deletedIndexPaths = [NSIndexPath]()
         updatedIndexPaths = [NSIndexPath]()
@@ -226,32 +225,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         print("in controllerWillChangeContent")
     }
     
-    // The second method may be called multiple times, once for each Color object that is added, deleted, or changed.
-    // We store the incex paths into the three arrays.
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         switch type{
             
         case .Insert:
             print("Insert an item")
-            // Here we are noting that a new Color instance has been added to Core Data. We remember its index path
-            // so that we can add a cell in "controllerDidChangeContent". Note that the "newIndexPath" parameter has
-            // the index path that we want in this case
             insertedIndexPaths.append(newIndexPath!)
             break
         case .Delete:
             print("Delete an item")
-            // Here we are noting that a Color instance has been deleted from Core Data. We keep remember its index path
-            // so that we can remove the corresponding cell in "controllerDidChangeContent". The "indexPath" parameter has
-            // value that we want in this case.
             deletedIndexPaths.append(indexPath!)
             break
         case .Update:
             print("Update an item.")
-            // We don't expect Color instances to change after they are created. But Core Data would
-            // notify us of changes if any occured. This can be useful if you want to respond to changes
-            // that come about after data is downloaded. For example, when an images is downloaded from
-            // Flickr in the Virtual Tourist app
             updatedIndexPaths.append(indexPath!)
             break
         case .Move:
@@ -260,12 +247,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    // This method is invoked after all of the changed in the current batch have been collected
-    // into the three index path arrays (insert, delete, and upate). We now need to loop through the
-    // arrays and perform the changes.
-    //
-    // The most interesting thing about the method is the collection view's "performBatchUpdates" method.
-    // Notice that all of the changes are performed inside a closure that is handed to the collection view.
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         
         print("in controllerDidChangeContent. changes.count: \(insertedIndexPaths.count + deletedIndexPaths.count)")
@@ -293,8 +274,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func downloadNewPhotoCollection() {
         
         FlickrClient.sharedInstance().getPhotos(pin) { (success, errorString) in
+            
+            /* If for some reason the photo locations cannot be downloaded, state why in error message */
             if success == false {
-                // display a label stating that no photos
                 performUIUpdatesOnMain {
                     self.errorMessage.text = errorString
                     self.errorMessage.hidden = false
@@ -315,22 +297,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func deleteSelectedPhotos() {
-        var photosToDelete = [Photo]()
-        
+
         for photo in selectedPhotos {
-            photosToDelete.append(photo)
-        }
-        
-        for photo in photosToDelete {
-            sharedContext.deleteObject(photo)
             FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
+            sharedContext.deleteObject(photo)
         }
         
         selectedPhotos = [Photo]()
         CoreDataStackManager.sharedInstance().saveContext()
         updateBottomButton()
     }
-    
     
     func updateBottomButton() {
         if selectedPhotos.count > 0 {
@@ -339,6 +315,5 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             bottomButton.title = "New Collection"
         }
     }
-    
     
 }
