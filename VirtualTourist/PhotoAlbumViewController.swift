@@ -10,11 +10,6 @@ import UIKit
 import MapKit
 import CoreData
 
-func performUIUpdatesOnMain(updates: () -> Void) {
-    dispatch_async(dispatch_get_main_queue()) {
-        updates()
-    }
-}
 
 /* Set reuse identifier constant for use in this file only */
 private let reuseIdentifier = "PhotoCollectionViewCell"
