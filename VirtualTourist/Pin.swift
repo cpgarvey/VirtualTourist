@@ -89,6 +89,20 @@ class Pin: NSManagedObject, MKAnnotation {
             
     }
     
+    func deleteAllPhotoImages() {
+        
+        /* Remove all the image data from the cache and hard drive for all photos associated with the pin */
+        for photo in photos {
+            imageCache.deleteImage(photo.photoID)
+        }
+        
+    }
+    
+    func deleteSnapshot() {
+        /* Remove the snapshot image from the cache and hard drive */
+        imageCache.deleteImage(mapSnapshotID)
+    }
+    
     var mapSnapshot: UIImage? {
         
         get {

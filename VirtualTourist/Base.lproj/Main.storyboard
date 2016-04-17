@@ -31,7 +31,13 @@
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lJu-Xh-q2o"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="PMH-zt-c0h"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="PMH-zt-c0h">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="aIA-WF-M53">
+                            <connections>
+                                <action selector="toggleEditMode:" destination="BYZ-38-t0r" id="yKi-IP-dW8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Mkf-Q5-RDr" id="27g-km-90B"/>
                     </connections>

@@ -17,6 +17,8 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var editMode = false
+    
     lazy var sharedContext: NSManagedObjectContext = {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }()
@@ -55,6 +57,13 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         title = "Back To Map"
     }
     
+    @IBAction func toggleEditMode(sender: UIBarButtonItem) {
+        
+        editMode ? (sender.title = "Edit") : (sender.title = "Done")
+        
+        editMode = !editMode
+        
+    }
     
     // MARK: - Helper Functions
     
@@ -83,10 +92,31 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
-        let pin = view.annotation as! Pin
-        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
-        controller.pin = pin
-        self.navigationController!.pushViewController(controller, animated: true)
+        if editMode == false {
+            
+            let pin = view.annotation as! Pin
+            let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
+            controller.pin = pin
+            self.navigationController!.pushViewController(controller, animated: true)
+            
+        } else {
+            
+            let pin = view.annotation as! Pin
+            
+            /* Delete all photo data in cache and hard drive related to pin */
+            pin.deleteAllPhotoImages()
+            pin.deleteSnapshot()
+            
+            /* Delete the pin object from Core Data */
+            sharedContext.deleteObject(pin)
+            
+            /* Remove the annotation from the map */
+            mapView.removeAnnotation(pin)
+            
+            /* Save the context */
+            CoreDataStackManager.sharedInstance().saveContext()
+        }
+        
     }
     
     
@@ -138,6 +168,8 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
     }
+    
+    
     
 }
 
