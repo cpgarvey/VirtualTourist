@@ -45,6 +45,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         } catch {}
         
         fetchedResultsController.delegate = self
+        
     }
     
     override func viewWillAppear(animated: Bool) {

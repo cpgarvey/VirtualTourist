@@ -129,6 +129,16 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
             
             /* Save the context */
             CoreDataStackManager.sharedInstance().saveContext()
+            
+            /* If there are no more pins left, turn off edit mode */
+            if mapView.annotations.count == 0 {
+                
+                self.navigationItem.rightBarButtonItem!.title = "Edit"
+                editModeView.hidden = true
+                editModeText.hidden = true
+                inEditMode = false
+                
+            }
         }
         
     }
