@@ -16,8 +16,10 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Properties
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var editModeView: UIView!
+    @IBOutlet weak var editModeText: UILabel!
     
-    var editMode = false
+    var inEditMode: Bool!
     
     lazy var sharedContext: NSManagedObjectContext = {
         return CoreDataStackManager.sharedInstance().managedObjectContext
@@ -32,6 +34,10 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         restoreMapRegion(false)
         
         mapView.delegate = self
+        
+        inEditMode = false
+        editModeView.hidden = true
+        editModeText.hidden = true
         
         /* Set up the long press gesture recognizer to drop pins */
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TravelLocationMapViewController.dropPin(_:)))
@@ -59,9 +65,17 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func toggleEditMode(sender: UIBarButtonItem) {
         
-        editMode ? (sender.title = "Edit") : (sender.title = "Done")
+        if !inEditMode {
+            sender.title = "Done"
+            editModeView.hidden = false
+            editModeText.hidden = false
+        } else {
+            sender.title = "Edit"
+            editModeView.hidden = true
+            editModeText.hidden = true
+        }
         
-        editMode = !editMode
+        inEditMode = !inEditMode
         
     }
     
@@ -92,7 +106,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
-        if editMode == false {
+        if inEditMode == false {
             
             let pin = view.annotation as! Pin
             let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController

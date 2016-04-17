@@ -20,15 +20,38 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Mkf-Q5-RDr">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iRV-ft-7jj">
+                                <rect key="frame" x="0.0" y="512" width="600" height="88"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="88" id="00s-eB-YMO"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LHy-NT-18m">
+                                <rect key="frame" x="0.0" y="512" width="600" height="88"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="88" id="Jwg-Bp-luY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Mkf-Q5-RDr" secondAttribute="bottom" id="3eL-F4-OaK"/>
+                            <constraint firstItem="LHy-NT-18m" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4cf-mr-T1X"/>
+                            <constraint firstAttribute="trailing" secondItem="LHy-NT-18m" secondAttribute="trailing" id="9an-Qb-4b9"/>
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="POJ-EV-nmN"/>
                             <constraint firstAttribute="trailing" secondItem="Mkf-Q5-RDr" secondAttribute="trailing" id="SbD-R1-0uL"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LHy-NT-18m" secondAttribute="bottom" id="brS-bl-sLI"/>
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bxq-oM-NVw"/>
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="e9k-eJ-ouZ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="iRV-ft-7jj" secondAttribute="bottom" id="kVZ-4z-AAE"/>
                             <constraint firstItem="Mkf-Q5-RDr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lJu-Xh-q2o"/>
+                            <constraint firstItem="LHy-NT-18m" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="mUQ-MK-mc4"/>
+                            <constraint firstItem="iRV-ft-7jj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="smB-Bp-Vyt"/>
+                            <constraint firstAttribute="trailing" secondItem="iRV-ft-7jj" secondAttribute="trailing" id="xLZ-LT-fdV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="PMH-zt-c0h">
@@ -39,12 +62,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editModeText" destination="LHy-NT-18m" id="12r-6k-kda"/>
+                        <outlet property="editModeView" destination="iRV-ft-7jj" id="ZJ2-OB-baA"/>
                         <outlet property="mapView" destination="Mkf-Q5-RDr" id="27g-km-90B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1141" y="429"/>
+            <point key="canvasLocation" x="1136" y="478"/>
         </scene>
         <!--Photo Album View Controller-->
         <scene sceneID="cYe-Vq-nYn">
