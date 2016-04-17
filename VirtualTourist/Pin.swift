@@ -14,9 +14,11 @@ class Pin: NSManagedObject, MKAnnotation {
     
     @NSManaged var latitude: NSNumber
     @NSManaged var longitude: NSNumber
-    @NSManaged var mapSnapshot: NSData
+    @NSManaged var mapSnapshotID: String
     @NSManaged var photos: [Photo]
     @NSManaged var pageNumber: Int
+    
+    let imageCache = ImageCache()
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -28,6 +30,10 @@ class Pin: NSManagedObject, MKAnnotation {
         
         latitude = NSNumber(double: annotationLatitude)
         longitude = NSNumber(double: annotationLongitude)
+        
+        let lat = String(latitude)
+        let long = String(longitude)
+        mapSnapshotID = lat + long + ".png"
         
         /* Create a snapshot of the pin location */
         takeSnapshot()
@@ -78,10 +84,20 @@ class Pin: NSManagedObject, MKAnnotation {
             let compositeImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            self.mapSnapshot = UIImagePNGRepresentation(compositeImage)!
-            
+            self.mapSnapshot = compositeImage
         }
             
+    }
+    
+    var mapSnapshot: UIImage? {
+        
+        get {
+            return imageCache.imageWithIdentifier(mapSnapshotID)
+        }
+        
+        set {
+            imageCache.storeImage(newValue, withIdentifier: mapSnapshotID)
+        }
     }
     
 }

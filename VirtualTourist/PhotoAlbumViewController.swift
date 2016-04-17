@@ -55,7 +55,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        mapSnapshot.image = UIImage(data: pin.mapSnapshot)
+        mapSnapshot.image = pin.mapSnapshot
         
         /* If a pin has no associated photos, begin the download of new photos */
         if pin.photos.isEmpty {
