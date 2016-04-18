@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1136" y="478"/>
+            <point key="canvasLocation" x="997" y="429"/>
         </scene>
         <!--Photo Album View Controller-->
         <scene sceneID="cYe-Vq-nYn">
@@ -195,11 +195,46 @@
                         <outlet property="collectionView" destination="cLj-Pe-yfg" id="e9W-Pc-LGt"/>
                         <outlet property="errorMessage" destination="ZEf-Nm-XeS" id="5mK-LB-lgY"/>
                         <outlet property="mapSnapshot" destination="fFf-LL-DSK" id="mRm-W9-dgt"/>
+                        <segue destination="9Lt-c6-B0D" kind="show" identifier="sgPhotoDetail" id="3hr-Ki-41K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yjs-Ry-aIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1837" y="429"/>
+            <point key="canvasLocation" x="1694" y="429"/>
+        </scene>
+        <!--Photo Detail View Controller-->
+        <scene sceneID="qRo-DC-Map">
+            <objects>
+                <viewController storyboardIdentifier="PhotoDetailViewController" id="9Lt-c6-B0D" customClass="PhotoDetailViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZW2-uI-o1J"/>
+                        <viewControllerLayoutGuide type="bottom" id="lnf-wj-d91"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="azk-Ml-GG9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z6h-ym-Deg">
+                                <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="CGf-2V-JUj"/>
+                                    <constraint firstAttribute="width" constant="300" id="g0C-GD-Hne"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z6h-ym-Deg" firstAttribute="centerY" secondItem="azk-Ml-GG9" secondAttribute="centerY" id="XK5-g3-Hi1"/>
+                            <constraint firstItem="z6h-ym-Deg" firstAttribute="centerX" secondItem="azk-Ml-GG9" secondAttribute="centerX" id="YMu-Lg-Fsb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="z6h-ym-Deg" id="Ffd-BK-mRc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ab-fL-yb9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2394" y="429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VXv-DH-F5f">

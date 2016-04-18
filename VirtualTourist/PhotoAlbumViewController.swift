@@ -14,7 +14,7 @@ import CoreData
 /* Set reuse identifier constant for use in this file only */
 private let reuseIdentifier = "PhotoCollectionViewCell"
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, UIViewControllerPreviewingDelegate {
 
     
     // MARK: - Properties
@@ -33,6 +33,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
     
+    /* Variable for photo selected with 3D Touch */
+    var previewPhoto: Photo?
     
     // MARK: - Life Cycle
 
@@ -45,6 +47,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         } catch {}
         
         fetchedResultsController.delegate = self
+        
+        /* Check for 3D Touch support */
+        // citation: http://www.the-nerd.be/2015/10/06/3d-touch-peek-and-pop-tutorial/
+        if (traitCollection.forceTouchCapability == .Available) {
+            
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }
         
     }
     
@@ -310,6 +319,56 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         } else {
             bottomButton.title = "New Collection"
         }
+    }
+    
+    
+    // MARK: - 3D Touch Functionality
+    
+    // MARK: Segue Method
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if (segue.identifier == "sgPhotoDetail") {
+            let vc = segue.destinationViewController as! PhotoDetailViewController
+            vc.photo = previewPhoto!
+        }
+        
+    }
+
+    
+    // MARK: UIViewControllerPreviewingDelegate Methods
+    
+    // citation: https://tisunov.github.io/2015/11/03/3d-touch-peek-and-pop-with-custom-collectionviewlayout.html
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        var detailVC: PhotoDetailViewController?
+        
+        guard let layoutAttributes = collectionView!.collectionViewLayout.layoutAttributesForElementsInRect(collectionView!.bounds) else { return nil }
+        
+        for attributes in layoutAttributes {
+            let point = collectionView!.convertPoint(location, fromView: collectionView!.superview)
+            
+            if attributes.representedElementKind == nil && CGRectContainsPoint(attributes.frame, point) {
+                
+                previewingContext.sourceRect = collectionView!.convertRect(attributes.frame, toView: collectionView!.superview)
+                
+                detailVC = storyboard?.instantiateViewControllerWithIdentifier("PhotoDetailViewController") as? PhotoDetailViewController
+                previewPhoto = (fetchedResultsController.objectAtIndexPath(attributes.indexPath) as! Photo)
+                detailVC!.photo = previewPhoto
+                
+                detailVC!.preferredContentSize = CGSize(width: 0.0, height: 300)
+                
+                break
+            }
+        }
+        
+        return detailVC
+    }
+    
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+        showViewController(viewControllerToCommit, sender: self)
+
     }
     
 }
