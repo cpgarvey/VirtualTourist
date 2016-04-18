@@ -297,18 +297,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-//    func deleteSelectedPhotos() {
-//
-//        for photo in selectedPhotos {
-//            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
-//            sharedContext.deleteObject(photo)
-//        }
-//        
-//        selectedPhotos = [Photo]()
-//        CoreDataStackManager.sharedInstance().saveContext()
-//        updateBottomButton()
-//    }
-    
     func updateBottomButton() {
         if selectedPhotos.count > 0 {
             bottomButton.title = "Remove Selected Photos"
