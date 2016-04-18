@@ -72,13 +72,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: - Action
     
     @IBAction func bottomButtonClicked(sender: UIBarButtonItem) {
+        
         /* If no photos have been selected, then delete them all and download new ones */
         if selectedPhotos.isEmpty {
-            deleteAllPhotos()
+            
+            /* This method has the pin delete all of its photos along with the underlying files in the Documents directory */
+            pin.deleteAllPhotos()
             downloadNewPhotoCollection()
+            
         } else {
-            /* Otherwise, delete just the selected photos */
-            deleteSelectedPhotos()
+            
+            /* Otherwise, the pin deletes just the selected photos and its underlying files */
+            pin.deleteSelectedPhotos(selectedPhotos)
+            selectedPhotos = [Photo]()
+            updateBottomButton()
         }
     }
     
@@ -290,28 +297,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func deleteAllPhotos() {
-        
-        for photo in fetchedResultsController.fetchedObjects as! [Photo] {
-            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
-            sharedContext.deleteObject(photo)
-            
-            CoreDataStackManager.sharedInstance().saveContext()
-        }
-        
-    }
-    
-    func deleteSelectedPhotos() {
-
-        for photo in selectedPhotos {
-            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
-            sharedContext.deleteObject(photo)
-        }
-        
-        selectedPhotos = [Photo]()
-        CoreDataStackManager.sharedInstance().saveContext()
-        updateBottomButton()
-    }
+//    func deleteSelectedPhotos() {
+//
+//        for photo in selectedPhotos {
+//            FlickrClient.Caches.imageCache.deleteImage(photo.photoID)
+//            sharedContext.deleteObject(photo)
+//        }
+//        
+//        selectedPhotos = [Photo]()
+//        CoreDataStackManager.sharedInstance().saveContext()
+//        updateBottomButton()
+//    }
     
     func updateBottomButton() {
         if selectedPhotos.count > 0 {

@@ -118,7 +118,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
             let pin = view.annotation as! Pin
             
             /* Delete all photo data in cache and hard drive related to pin */
-            pin.deleteAllPhotoImages()
+            pin.deleteAllPhotos()
             pin.deleteSnapshot()
             
             /* Delete the pin object from Core Data */

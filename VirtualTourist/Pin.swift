@@ -89,11 +89,17 @@ class Pin: NSManagedObject, MKAnnotation {
             
     }
     
-    func deleteAllPhotoImages() {
+    func deleteAllPhotos() {
         
-        /* Remove all the image data from the cache and hard drive for all photos associated with the pin */
         for photo in photos {
-            imageCache.deleteImage(photo.photoID)
+            deletePhoto(photo)
+        }
+    }
+    
+    func deleteSelectedPhotos(selectedPhotos: [Photo]) {
+        
+        for photo in selectedPhotos {
+            deletePhoto(photo)
         }
         
     }
@@ -101,6 +107,14 @@ class Pin: NSManagedObject, MKAnnotation {
     func deleteSnapshot() {
         /* Remove the snapshot image from the cache and hard drive */
         imageCache.deleteImage(mapSnapshotID)
+    }
+    
+    func deletePhoto(photo: Photo) {
+        /* Delete the photo (including image data from the cache and hard drive) */
+        imageCache.deleteImage(photo.photoID)
+        sharedContext.deleteObject(photo)
+        
+        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     var mapSnapshot: UIImage? {
@@ -112,6 +126,13 @@ class Pin: NSManagedObject, MKAnnotation {
         set {
             imageCache.storeImage(newValue, withIdentifier: mapSnapshotID)
         }
+    }
+    
+    
+    // MARK: - Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
 }
