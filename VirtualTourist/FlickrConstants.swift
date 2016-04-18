@@ -23,6 +23,7 @@ extension FlickrClient {
         static let API_KEY = "ENTER_YOUR_API_KEY_HERE"
 
 
+
         
         /* Method Arguments */
         static let METHOD_NAME = "flickr.photos.search"

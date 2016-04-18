@@ -18,6 +18,7 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     var photo: Photo?
+    var pin: Pin?
 
     
     // MARK: - Life Cycle
@@ -28,6 +29,20 @@ class PhotoDetailViewController: UIViewController {
         if let photo = photo {
             imageView.image = photo.photoImage
         }
+        
+        /* Set up the delete button */
+        let deleteButton = UIBarButtonItem(title: "Delete Photo", style: .Plain, target: self, action: #selector(PhotoDetailViewController.deletePhotoFromButton))
+        deleteButton.tintColor = UIColor.redColor()
+        self.navigationItem.rightBarButtonItem = deleteButton
+        
+    }
+    
+    
+    // MARK: Delete Function
+    
+    func deletePhotoFromButton() {
+        pin?.deleteSelectedPhotos([photo!])
+        navigationController?.popViewControllerAnimated(true)
     }
     
     
@@ -37,12 +52,8 @@ class PhotoDetailViewController: UIViewController {
         
         let deleteAction = UIPreviewAction(title: "Delete", style: .Destructive) { (action, viewController) -> Void in
             
-            /* If the user presses delete, delete the photo */
-            FlickrClient.Caches.imageCache.deleteImage(self.photo!.photoID)
-            self.sharedContext.deleteObject(self.photo!)
-            
-            CoreDataStackManager.sharedInstance().saveContext()
-            
+            /* If the user presses delete, have the pin delete the photo */
+            self.pin?.deleteSelectedPhotos([self.photo!])
         }
         
         return [deleteAction]

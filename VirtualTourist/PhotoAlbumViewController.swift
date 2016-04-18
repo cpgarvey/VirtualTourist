@@ -351,6 +351,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 detailVC = storyboard?.instantiateViewControllerWithIdentifier("PhotoDetailViewController") as? PhotoDetailViewController
                 previewPhoto = (fetchedResultsController.objectAtIndexPath(attributes.indexPath) as! Photo)
                 detailVC!.photo = previewPhoto
+                detailVC!.pin = pin
                 
                 detailVC!.preferredContentSize = CGSize(width: 0.0, height: 300)
                 
