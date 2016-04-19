@@ -132,16 +132,20 @@ class FlickrClient: NSObject {
                         return
                     }
                     
+                    performUIUpdatesOnMain {
                     /* Create a new photo object */
                     let _ = Photo(pin: pin, photoID: photoID, photoPath: imageUrlString, context: self.sharedContext)
                     
                     /* Save the Core Data Context that includes the new photo object */
                     CoreDataStackManager.sharedInstance().saveContext()
+                    }
+                    
                 }
                 
+                performUIUpdatesOnMain {
                 /* If the download has been successful, increment the page number for the next network call */
                 pin.pageNumber = pin.pageNumber + 1
-                
+                }
                 /* Send back a success message to the caller through the completion handler */
                 completionHandler(success: true, errorString: nil)
             }
@@ -165,9 +169,10 @@ class FlickrClient: NSObject {
                 return
             }
             
+            performUIUpdatesOnMain {
             /* Add the downloaded photo image to the photo object */
             photo.photoImage = UIImage(data: data)
-            
+            }
             /* Send back a success message to the caller through the completion handler */
             completionHandler(success: true, errorString: nil)
             

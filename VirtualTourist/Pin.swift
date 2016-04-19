@@ -53,9 +53,11 @@ class Pin: NSManagedObject, MKAnnotation {
         
         // citation: http://nshipster.com/mktileoverlay-mkmapsnapshotter-mkdirections/
         // Apple reference: https://developer.apple.com/library/ios/documentation/MapKit/Reference/MKMapSnapshotter_class/index.html#//apple_ref/swift/cl/c:objc(cs)MKMapSnapshotter
+        
+        let safeCoordinate = coordinate
         let options = MKMapSnapshotOptions()
         let span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-        options.region = MKCoordinateRegion(center: coordinate, span: span)
+        options.region = MKCoordinateRegion(center: safeCoordinate, span: span)
         options.size = CGSize(width: CGFloat(600), height: CGFloat(136))
         options.scale = UIScreen.mainScreen().scale
         
@@ -74,7 +76,7 @@ class Pin: NSManagedObject, MKAnnotation {
             image.drawAtPoint(CGPoint.zero)
             
             let visibleRect = CGRect(origin: CGPoint.zero, size: image.size)
-            var point = snapshot.pointForCoordinate(self.coordinate)
+            var point = snapshot.pointForCoordinate(safeCoordinate)
             if visibleRect.contains(point) {
                 point.x = point.x + pin.centerOffset.x - (pin.bounds.size.width / 2)
                 point.y = point.y + pin.centerOffset.y - (pin.bounds.size.height / 2)
@@ -84,7 +86,9 @@ class Pin: NSManagedObject, MKAnnotation {
             let compositeImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            self.mapSnapshot = compositeImage
+            performUIUpdatesOnMain {
+                self.mapSnapshot = compositeImage
+            }
         }
             
     }
