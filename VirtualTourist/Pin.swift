@@ -86,7 +86,7 @@ class Pin: NSManagedObject, MKAnnotation {
             let compositeImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            performUIUpdatesOnMain {
+            performOnMain {
                 self.mapSnapshot = compositeImage
             }
         }

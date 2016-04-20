@@ -98,7 +98,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate: CLLocationCoordinate2D = mapView.convertPoint(tapPoint, toCoordinateFromView: mapView)
         
         if UIGestureRecognizerState.Began == gestureRecognizer.state {
-            performUIUpdatesOnMain {
+            performOnMain {
             let pin = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: self.sharedContext)
                 self.mapView.addAnnotation(pin)
             }

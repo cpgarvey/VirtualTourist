@@ -196,12 +196,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
             FlickrClient.sharedInstance().downloadPhoto(photo) { (success, errorString) in
                 if success {
-                    performUIUpdatesOnMain {
+                    performOnMain {
                         cell.photoImageView?.image = photo.photoImage
                         cell.activityIndicator.stopAnimating()
                     }
                 } else {
-                    performUIUpdatesOnMain {
+                    performOnMain {
                         cell.photoImageView.image = UIImage(named: "placeholder")
                         cell.activityIndicator.stopAnimating()
                         print(errorString)
@@ -211,7 +211,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
         } else {
             /* Use the image that is already stored either in the cache or on the hard drive */
-            performUIUpdatesOnMain {
+            performOnMain {
                 cell.photoImageView?.image = photo.photoImage
             }
         }
@@ -289,7 +289,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
             /* If for some reason the photo locations cannot be downloaded, state why in error message */
             if success == false {
-                performUIUpdatesOnMain {
+                performOnMain {
                     self.errorMessage.text = errorString
                     self.errorMessage.hidden = false
                 }

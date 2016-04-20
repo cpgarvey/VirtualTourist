@@ -132,7 +132,7 @@ class FlickrClient: NSObject {
                         return
                     }
                     
-                    performUIUpdatesOnMain {
+                    performOnMain {
                     /* Create a new photo object */
                     let _ = Photo(pin: pin, photoID: photoID, photoPath: imageUrlString, context: self.sharedContext)
                     
@@ -142,7 +142,7 @@ class FlickrClient: NSObject {
                     
                 }
                 
-                performUIUpdatesOnMain {
+                performOnMain {
                 /* If the download has been successful, increment the page number for the next network call */
                 pin.pageNumber = pin.pageNumber + 1
                 }
@@ -169,7 +169,7 @@ class FlickrClient: NSObject {
                 return
             }
             
-            performUIUpdatesOnMain {
+            performOnMain {
             /* Add the downloaded photo image to the photo object */
             photo.photoImage = UIImage(data: data)
             }

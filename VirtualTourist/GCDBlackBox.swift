@@ -9,7 +9,7 @@
 import Foundation
 
 /* Global GCD function to update main queue */
-func performUIUpdatesOnMain(updates: () -> Void) {
+func performOnMain(updates: () -> Void) {
     dispatch_async(dispatch_get_main_queue()) {
         updates()
     }
