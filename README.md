@@ -7,7 +7,12 @@
 
 ## Screenshots
 
-![alt text](Screenshots/TravelLocationMapViewController.PNG "TravelLocationMapViewController")![alt text](Screenshots/TravelLocationMapEditMode.PNG "TravelLocationMapEditMode")![alt text](Screenshots/PhotoAlbumViewController.PNG "PhotoAlbumViewController")![alt text](Screenshots/PhotoAlbumViewPeek.PNG "PhotoAlbumViewPeek")![alt text](Screenshots/PhotoAlbumViewDeleteAction.PNG "PhotoAlbumViewDeleteAction")![alt text](Screenshots/PhotoDetailViewController.PNG "PhotoDetailViewController")
+![alt text](Screenshots/TravelLocationMapViewController.PNG "TravelLocationMapViewController")
+![alt text](Screenshots/TravelLocationMapEditMode.PNG "TravelLocationMapEditMode")
+![alt text](Screenshots/PhotoAlbumViewController.PNG "PhotoAlbumViewController")
+![alt text](Screenshots/PhotoAlbumViewPeek.PNG "PhotoAlbumViewPeek")
+![alt text](Screenshots/PhotoAlbumViewDeleteAction.PNG "PhotoAlbumViewDeleteAction")
+![alt text](Screenshots/PhotoDetailViewController.PNG "PhotoDetailViewController")
 
 ## Instructions
 
