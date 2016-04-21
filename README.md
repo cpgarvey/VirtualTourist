@@ -7,7 +7,7 @@
 
 ## Screenshots
 
-_[Coming Soon]_
+![alt text](Screenshots/TravelLocationMapViewController.png "TravelLocationMapViewController")![alt text](Screenshots/TravelLocationMapEditMode.png "TravelLocationMapEditMode")![alt text](Screenshots/PhotoAlbumViewController.png "PhotoAlbumViewController")![alt text](Screenshots/PhotoAlbumViewPeek.png "PhotoAlbumViewPeek")![alt text](Screenshots/PhotoAlbumViewDeleteAction.png "PhotoAlbumViewDeleteAction")![alt text](Screenshots/PhotoDetailViewController.png "PhotoDetailViewController")
 
 ## Instructions
 
@@ -15,4 +15,4 @@ In order for the networking calls to work correctly in the app, you will need to
 
 Assign this constant in the FlickrConstants.swift file:
 
-![alt text](Screenshots/FlickrConstants.png "ParseConstants.swift")
+![alt text](Screenshots/FlickrConstants.png "FlickrConstants.swift")
