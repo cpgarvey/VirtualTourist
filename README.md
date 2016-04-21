@@ -7,12 +7,12 @@
 
 ## Screenshots
 
-![alt text](Screenshots/TravelLocationMapViewController.png "TravelLocationMapViewController")![alt text](Screenshots/TravelLocationMapEditMode.png "TravelLocationMapEditMode")![alt text](Screenshots/PhotoAlbumViewController.png "PhotoAlbumViewController")![alt text](Screenshots/PhotoAlbumViewPeek.png "PhotoAlbumViewPeek")![alt text](Screenshots/PhotoAlbumViewDeleteAction.png "PhotoAlbumViewDeleteAction")![alt text](Screenshots/PhotoDetailViewController.png "PhotoDetailViewController")
+![alt text](Screenshots/TravelLocationMapViewController.PNG "TravelLocationMapViewController")![alt text](Screenshots/TravelLocationMapEditMode.PNG "TravelLocationMapEditMode")![alt text](Screenshots/PhotoAlbumViewController.PNG "PhotoAlbumViewController")![alt text](Screenshots/PhotoAlbumViewPeek.PNG "PhotoAlbumViewPeek")![alt text](Screenshots/PhotoAlbumViewDeleteAction.PNG "PhotoAlbumViewDeleteAction")![alt text](Screenshots/PhotoDetailViewController.PNG "PhotoDetailViewController")
 
 ## Instructions
 
 In order for the networking calls to work correctly in the app, you will need to do the following:
 
-Assign this constant in the FlickrConstants.swift file:
+Assign the API_KEY constant:
 
 ![alt text](Screenshots/FlickrConstants.png "FlickrConstants.swift")
