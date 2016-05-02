@@ -16,8 +16,6 @@
 
 ## Instructions
 
-In order for the networking calls to work correctly in the app, you will need to do the following:
-
-Assign the API_KEY constant:
+In order for the networking calls to work correctly in the app, you will need to set the following API_KEY constant in the FlickrConstants.swift file:
 
 ![alt text](Screenshots/FlickrConstants.png "FlickrConstants.swift")
