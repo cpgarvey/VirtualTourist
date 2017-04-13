@@ -1,5 +1,7 @@
 # Virtual Tourist
 
+CURRENTLY UNDERGOING REVISIONS TO MAKE SWIFT 3+ COMPLIANT!
+
 ## Overview
 
 - Multi-view Swift app allows the user to drop pins on a map and pull up Flickr images associated with that location
